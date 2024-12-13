@@ -22,7 +22,7 @@ class AuthStateProvider extends ChangeNotifier {
 
       await _firebaseAuth.verifyPhoneNumber(
         verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {
-          print('verificationComplete');
+          // print('verificationComplete');
           user = AppUser(
             username: null,
             phone: phone,

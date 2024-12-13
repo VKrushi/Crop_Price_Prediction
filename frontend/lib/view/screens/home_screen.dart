@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/view/constants/routes.dart';
 import 'package:frontend/view/widgets/feature_tile.dart';
 
 import 'package:frontend/view/widgets/mobile_drawer.dart';
@@ -11,33 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List featureList = [
-    {
-      'title': 'Crop Price Predictor',
-      'image': Image.asset(
-        'assets/images/price_prediction.png',
-        fit: BoxFit.fill,
-      ),
-      'onTap': () {},
-    },
-    {
-      'title': 'Crop Recommendation System',
-      'image': Image.asset(
-        'assets/images/crop_recommendation.png',
-        fit: BoxFit.fill,
-      ),
-      'onTap': () {},
-    },
-    {
-      'title': 'Profit Calculator',
-      'image': Image.asset(
-        'assets/images/profit_calculator.png',
-        fit: BoxFit.fill,
-      ),
-      'onTap': () {},
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,18 +53,45 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 24),
-            ListView.builder(
+            ListView(
               shrinkWrap: true,
-              itemCount: featureList.length,
               physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return FeatureTile(
-                  title: featureList[index]['title'],
-                  onTap: featureList[index]['onTap'],
-                  image: featureList[index]['image'],
-                );
-              },
-            )
+              children: [
+                FeatureTile(
+                  title: 'Crop Price Predictor',
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    cropRecommendationScreenRoute,
+                  ),
+                  image: Image.asset(
+                    'assets/images/price_prediction.png',
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                FeatureTile(
+                  title: 'Crop Recommendation System',
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    cropRecommendationScreenRoute,
+                  ),
+                  image: Image.asset(
+                    'assets/images/crop_recommendation.png',
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                FeatureTile(
+                  title: 'Profit Calculator',
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    cropRecommendationScreenRoute,
+                  ),
+                  image: Image.asset(
+                    'assets/images/profit_calculator.png',
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

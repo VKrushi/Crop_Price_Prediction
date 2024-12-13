@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/controller/api/crop_recommendation_api.dart';
 import 'package:frontend/controller/providers/auth_state_provider.dart';
 import 'package:frontend/firebase_options.dart';
 import 'package:frontend/view/constants/routes.dart';
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => AuthStateProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => CropRecommendationApi(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -31,7 +35,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         routes: routes,
-        initialRoute: authGateRoute,
+        initialRoute: homeScreenRoute,
       ),
     );
   }
