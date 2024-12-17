@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: 'Crop Price Predictor',
                   onTap: () => Navigator.pushNamed(
                     context,
-                    cropRecommendationScreenRoute,
+                    cropPricePredictionScreenRoute,
                   ),
                   image: Image.asset(
                     'assets/images/price_prediction.png',

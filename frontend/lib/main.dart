@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/controller/api/crop_price_prediction_api.dart';
 import 'package:frontend/controller/api/crop_recommendation_api.dart';
 import 'package:frontend/controller/providers/auth_state_provider.dart';
 import 'package:frontend/firebase_options.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => CropRecommendationApi(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CropPricePredictionApi(),
         ),
       ],
       child: MaterialApp(
