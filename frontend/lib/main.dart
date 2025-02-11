@@ -2,7 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/controller/api/crop_price_prediction_api.dart';
 import 'package:frontend/controller/api/crop_recommendation_api.dart';
+import 'package:frontend/controller/api/govt_schemes_api.dart';
+import 'package:frontend/controller/api/latest_news_api.dart';
 import 'package:frontend/controller/providers/auth_state_provider.dart';
+import 'package:frontend/controller/providers/expense_benefit_provider.dart';
 import 'package:frontend/firebase_options.dart';
 import 'package:frontend/view/constants/routes.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +31,15 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => CropPricePredictionApi(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LatestNewsApi(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GovtSchemesApi(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ExpenseBenefitProvider(),
         ),
       ],
       child: MaterialApp(

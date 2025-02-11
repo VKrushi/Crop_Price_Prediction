@@ -18,7 +18,6 @@ class CropRecommendationApi extends ChangeNotifier {
     required double pH,
     required double rainfall,
   }) async {
-    print('invoked');
     recommendationApiState = ApiState.loading;
     try {
       final res = await http.get(
@@ -29,7 +28,7 @@ class CropRecommendationApi extends ChangeNotifier {
           'Accept': '*/*'
         },
       );
-      print(res.statusCode);
+
       if (res.statusCode == 200) {
         recommendationApiState = ApiState.succesful;
         error = null;

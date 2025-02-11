@@ -60,16 +60,16 @@ def on_request_prediction(req: https_fn.Request) -> https_fn.Response:
 
 @https_fn.on_request()
 def on_request_schemes(req: https_fn.Request) -> https_fn.Response:
-    url = "https://agriwelfare.gov.in/en/Major"
-
-    data = requests.get(url,verify=False)
-    soup = BeautifulSoup(data.content,'html.parser')
-
-    table_body = soup.find('tbody')
-    rows = table_body.find_all('tr')
+    url1 = "https://agriwelfare.gov.in/en/Major"
+    url2 = "https://www.maharashtra.gov.in/Site/1604/scheme"
 
     scheme_dict = {}
-    
+
+    data1 = requests.get(url1,verify=False)
+    soup1 = BeautifulSoup(data1.content,'html.parser')
+
+    table_body = soup1.find('tbody')
+    rows = table_body.find_all('tr')
 
     for row in rows:
         title = row.find_all('td')[1].text
@@ -77,6 +77,18 @@ def on_request_schemes(req: https_fn.Request) -> https_fn.Response:
 
         if ".pdf" not in site_url:
             scheme_dict[title] = site_url
+        else:
+            scheme_dict[title] = f"https://agriwelfare.gov.in/{site_url}"
+
+    data2 = requests.get(url2,verify=False)
+    soup2 = BeautifulSoup(data2.content,'html.parser')
+    schemeData = soup2.find_all('div',{"class": "pannel mt-3"})
+
+    for scheme in schemeData:
+        title = scheme.find('h3').text
+        site_url = scheme.find('div',{"class": "w-100"}).find_all('p')[-1].find('a')['href']
+
+        scheme_dict[title] = site_url
 
     df = pd.DataFrame(scheme_dict.items(),columns=['Title','Link'])
     

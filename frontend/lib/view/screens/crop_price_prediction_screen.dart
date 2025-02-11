@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/controller/api/crop_price_prediction_api.dart';
 import 'package:provider/provider.dart';
 import '../constants/enums.dart';
+import '../constants/raw_data.dart';
 
 class CropPricePredictionScreen extends StatefulWidget {
   const CropPricePredictionScreen({super.key});
@@ -12,7 +13,6 @@ class CropPricePredictionScreen extends StatefulWidget {
 }
 
 class _CropPricePredictionScreenState extends State<CropPricePredictionScreen> {
-  List<String> cropList = ['Wheat', 'Rice'];
   String? selectedCrop;
 
   @override
@@ -27,7 +27,7 @@ class _CropPricePredictionScreenState extends State<CropPricePredictionScreen> {
         Provider.of<CropPricePredictionApi>(context, listen: false);
 
     if (isValid()) {
-      provider.predictPrice(crop: '');
+      provider.predictPrice(crop: selectedCrop!);
     } else {
       provider.predictionApiState = ApiState.error;
       provider.error = 'Invalid Input';
@@ -79,6 +79,25 @@ class _CropPricePredictionScreenState extends State<CropPricePredictionScreen> {
             ),
           ),
           const SizedBox(height: 24),
+          GestureDetector(
+            onTap: () => onClickEnter(),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey[400]!),
+                borderRadius: BorderRadius.circular(4),
+                color: Colors.grey[800]!,
+              ),
+              child: Text(
+                'Predict',
+                style: TextStyle(
+                  color: Colors.grey[200]!,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
           Row(
             children: List.generate(
               50,
@@ -99,9 +118,16 @@ class _CropPricePredictionScreenState extends State<CropPricePredictionScreen> {
                 case ApiState.loading:
                   return const CircularProgressIndicator();
                 default:
-                  return value.predictionApiState == ApiState.error
-                      ? Text(value.error!)
-                      : Container();
+                  return Text(
+                    value.predictionApiState == ApiState.error
+                        ? value.error!
+                        : "${value.forecastedPrice!.length}",
+                    style: TextStyle(
+                      color: value.predictionApiState == ApiState.error
+                          ? Colors.red
+                          : Colors.grey[800],
+                    ),
+                  );
               }
             },
           ),

@@ -3,8 +3,12 @@ import 'package:frontend/controller/providers/auth_state_provider.dart';
 import 'package:provider/provider.dart';
 
 class MobileDrawer extends StatelessWidget {
+  final void Function() onClickLatestNews;
+  final void Function() onClickGovtSchemes;
   const MobileDrawer({
     super.key,
+    required this.onClickLatestNews,
+    required this.onClickGovtSchemes,
   });
 
   @override
@@ -56,7 +60,7 @@ class MobileDrawer extends StatelessWidget {
                   letterSpacing: 0.8,
                 ),
               ),
-              onTap: () {},
+              onTap: onClickLatestNews,
             ),
           ),
           Card(
@@ -71,7 +75,7 @@ class MobileDrawer extends StatelessWidget {
                   letterSpacing: 0.8,
                 ),
               ),
-              onTap: () {},
+              onTap: onClickGovtSchemes,
             ),
           ),
           Card(

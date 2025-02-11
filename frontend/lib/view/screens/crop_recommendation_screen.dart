@@ -61,10 +61,9 @@ class _CropRecommendationScreenState extends State<CropRecommendationScreen> {
         controller3.text.isEmpty ||
         controller4.text.isEmpty ||
         controller5.text.isEmpty) {
-      print(false);
       return false;
     }
-    print(true);
+
     return true;
   }
 

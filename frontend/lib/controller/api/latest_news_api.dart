@@ -6,18 +6,16 @@ import 'package:frontend/view/constants/api_url.dart';
 import '../../view/constants/enums.dart';
 import 'package:http/http.dart' as http;
 
-class CropPricePredictionApi extends ChangeNotifier {
-  ApiState predictionApiState = ApiState.none;
+class LatestNewsApi extends ChangeNotifier {
+  ApiState newsApiState = ApiState.none;
   String? error;
-  List<Map>? forecastedPrice;
+  List? news;
 
-  Future<void> predictPrice({
-    required String crop,
-  }) async {
-    predictionApiState = ApiState.loading;
+  Future<void> getNews() async {
+    newsApiState = ApiState.loading;
     try {
       final res = await http.get(
-        Uri.parse(cropPricePredictionUrl),
+        Uri.parse(latestNewsUrl),
         headers: {
           "Access-Control-Allow-Origin": "*",
           'Content-Type': 'application/json',
@@ -26,14 +24,14 @@ class CropPricePredictionApi extends ChangeNotifier {
       );
 
       if (res.statusCode == 200) {
-        predictionApiState = ApiState.succesful;
+        newsApiState = ApiState.succesful;
         error = null;
-        forecastedPrice = await jsonDecode(res.body);
+        news = await jsonDecode(utf8.decode(res.bodyBytes))['results'];
       }
     } on Exception catch (e) {
-      predictionApiState = ApiState.error;
+      newsApiState = ApiState.error;
       error = e.toString();
-      forecastedPrice = null;
+      news = null;
     } finally {
       notifyListeners();
     }

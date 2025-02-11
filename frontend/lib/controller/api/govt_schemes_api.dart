@@ -1,23 +1,22 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+
 import 'package:frontend/view/constants/api_url.dart';
 
 import '../../view/constants/enums.dart';
 import 'package:http/http.dart' as http;
 
-class CropPricePredictionApi extends ChangeNotifier {
-  ApiState predictionApiState = ApiState.none;
+class GovtSchemesApi extends ChangeNotifier {
+  ApiState schemeApiState = ApiState.none;
   String? error;
-  List<Map>? forecastedPrice;
+  List? schemes;
 
-  Future<void> predictPrice({
-    required String crop,
-  }) async {
-    predictionApiState = ApiState.loading;
+  Future<void> getSchemes() async {
+    schemeApiState = ApiState.loading;
     try {
       final res = await http.get(
-        Uri.parse(cropPricePredictionUrl),
+        Uri.parse(govtSchemeUrl),
         headers: {
           "Access-Control-Allow-Origin": "*",
           'Content-Type': 'application/json',
@@ -26,14 +25,21 @@ class CropPricePredictionApi extends ChangeNotifier {
       );
 
       if (res.statusCode == 200) {
-        predictionApiState = ApiState.succesful;
+        schemeApiState = ApiState.succesful;
         error = null;
-        forecastedPrice = await jsonDecode(res.body);
+        schemes = await jsonDecode(utf8.decode(res.bodyBytes));
+
+        for (int i = 0; i < 15; i++) {
+          schemes![i]['Type'] = 0;
+        }
+        for (int i = 15; i < schemes!.length; i++) {
+          schemes![i]['Type'] = 1;
+        }
       }
     } on Exception catch (e) {
-      predictionApiState = ApiState.error;
+      schemeApiState = ApiState.error;
       error = e.toString();
-      forecastedPrice = null;
+      schemes = null;
     } finally {
       notifyListeners();
     }
