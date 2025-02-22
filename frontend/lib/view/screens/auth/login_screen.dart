@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/controller/providers/auth_state_provider.dart';
 import 'package:frontend/view/constants/enums.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_textfield.dart';
@@ -48,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 50,
                         ),
                         Text(
-                          'VKrushi',
+                          AppLocalizations.of(context)!.appName,
                           style: TextStyle(
                             color: Colors.grey[200],
                             fontSize: 16,
@@ -58,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 25,
                         ),
                         Text(
-                          'Welcome back you have been missed',
+                          AppLocalizations.of(context)!.appWelcomeMessage,
                           style: TextStyle(
                             color: Colors.grey[200],
                             fontSize: 16,

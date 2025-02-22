@@ -9,6 +9,8 @@ import 'package:frontend/controller/providers/expense_benefit_provider.dart';
 import 'package:frontend/firebase_options.dart';
 import 'package:frontend/view/constants/routes.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,8 +52,19 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
+        locale: const Locale('mr'),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en'),
+          Locale('mr'),
+        ],
         routes: routes,
-        initialRoute: homeScreenRoute,
+        initialRoute: authGateRoute,
       ),
     );
   }
