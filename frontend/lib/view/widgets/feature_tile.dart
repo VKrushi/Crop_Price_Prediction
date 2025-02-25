@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FeatureTile extends StatelessWidget {
   final String title;
@@ -41,9 +42,9 @@ class FeatureTile extends StatelessWidget {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.all(8),
-                  child: const Text(
-                    'Try it now >>',
-                    style: TextStyle(fontSize: 16),
+                  child: Text(
+                    AppLocalizations.of(context)!.tryIttext,
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
               ],

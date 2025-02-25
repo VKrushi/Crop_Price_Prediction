@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/controller/providers/auth_state_provider.dart';
 import 'package:frontend/view/constants/enums.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../controller/providers/auth_state_provider.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_textfield.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class ProfileCreationScreen extends StatefulWidget {
+  const ProfileCreationScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<ProfileCreationScreen> createState() => _ProfileCreationScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  late TextEditingController phoneController;
-  late TextEditingController otpController;
+class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
+  late final TextEditingController namecontroller;
+  late final TextEditingController locationcontroller;
 
   @override
   void initState() {
-    phoneController = TextEditingController();
-    otpController = TextEditingController();
+    namecontroller = TextEditingController();
+    locationcontroller = TextEditingController();
     super.initState();
   }
 
@@ -68,27 +68,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 25,
                         ),
-                        value.authState == AuthState.loggedOut
-                            ? CustomTextField(
-                                controller: phoneController,
-                                hintText:
-                                    AppLocalizations.of(context)!.phoneHintText,
-                                isObscureText: false,
-                                textInputType: TextInputType.phone,
-                              )
-                            : Container(),
+                        CustomTextField(
+                          controller: namecontroller,
+                          hintText: AppLocalizations.of(context)!.nameHintText,
+                          isObscureText: false,
+                          textInputType: TextInputType.text,
+                        ),
                         const SizedBox(
                           height: 15,
                         ),
-                        value.authState == AuthState.unverified
-                            ? CustomTextField(
-                                controller: otpController,
-                                hintText:
-                                    AppLocalizations.of(context)!.otpHintText,
-                                isObscureText: false,
-                                textInputType: TextInputType.phone,
-                              )
-                            : Container(),
+                        CustomTextField(
+                          controller: locationcontroller,
+                          hintText:
+                              AppLocalizations.of(context)!.locationHintText,
+                          isObscureText: false,
+                          textInputType: TextInputType.text,
+                        ),
                         const SizedBox(
                           height: 15,
                         ),
@@ -107,10 +102,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: CustomButton(
                             text:
-                                AppLocalizations.of(context)!.verifyButtonText,
-                            onTap: () => value.authState == AuthState.loggedOut
-                                ? value.verifyPhone(phone: phoneController.text)
-                                : value.verifyOTP(otp: otpController.text),
+                                AppLocalizations.of(context)!.proceedButtonText,
+                            onTap: () => value.saveDetails(
+                              userName: namecontroller.text,
+                              userLocation: locationcontroller.text,
+                            ),
                           ),
                         ),
                         const SizedBox(

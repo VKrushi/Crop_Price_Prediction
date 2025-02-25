@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/controller/providers/auth_state_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MobileDrawer extends StatelessWidget {
   final void Function() onClickLatestNews;
   final void Function() onClickGovtSchemes;
+  final void Function() onClickProfile;
   const MobileDrawer({
     super.key,
     required this.onClickLatestNews,
     required this.onClickGovtSchemes,
+    required this.onClickProfile,
   });
 
   @override
@@ -39,13 +42,13 @@ class MobileDrawer extends StatelessWidget {
               leading: const Icon(
                 Icons.home,
               ),
-              title: const Text(
-                'Profile',
-                style: TextStyle(
+              title: Text(
+                AppLocalizations.of(context)!.profileMenuText,
+                style: const TextStyle(
                   letterSpacing: 0.8,
                 ),
               ),
-              onTap: () {},
+              onTap: onClickProfile,
             ),
           ),
           Card(
@@ -54,9 +57,9 @@ class MobileDrawer extends StatelessWidget {
               leading: const Icon(
                 Icons.home,
               ),
-              title: const Text(
-                'Latest News',
-                style: TextStyle(
+              title: Text(
+                AppLocalizations.of(context)!.latestNewsMenuText,
+                style: const TextStyle(
                   letterSpacing: 0.8,
                 ),
               ),
@@ -69,9 +72,9 @@ class MobileDrawer extends StatelessWidget {
               leading: const Icon(
                 Icons.home,
               ),
-              title: const Text(
-                'Govt. Schemes',
-                style: TextStyle(
+              title: Text(
+                AppLocalizations.of(context)!.govtSchemesMenuText,
+                style: const TextStyle(
                   letterSpacing: 0.8,
                 ),
               ),
@@ -84,9 +87,9 @@ class MobileDrawer extends StatelessWidget {
               leading: const Icon(
                 Icons.home,
               ),
-              title: const Text(
-                'Logout',
-                style: TextStyle(
+              title: Text(
+                AppLocalizations.of(context)!.logoutMenuText,
+                style: const TextStyle(
                   letterSpacing: 0.8,
                 ),
               ),

@@ -3,6 +3,7 @@ import 'package:frontend/controller/api/crop_price_prediction_api.dart';
 import 'package:provider/provider.dart';
 import '../constants/enums.dart';
 import '../constants/raw_data.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CropPricePredictionScreen extends StatefulWidget {
   const CropPricePredictionScreen({super.key});
@@ -44,9 +45,9 @@ class _CropPricePredictionScreenState extends State<CropPricePredictionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Crop Price Prediction System',
-          style: TextStyle(fontSize: 16),
+        title: Text(
+          AppLocalizations.of(context)!.cropPricePredictorText,
+          style: const TextStyle(fontSize: 16),
         ),
       ),
       body: Column(
@@ -64,7 +65,9 @@ class _CropPricePredictionScreenState extends State<CropPricePredictionScreen> {
             child: DropdownButton<String>(
               value: selectedCrop,
               underline: Container(),
-              hint: const Text(' Select Crop '),
+              hint: Text(
+                AppLocalizations.of(context)!.cropSelectionText,
+              ),
               icon: const Icon(Icons.arrow_drop_down_sharp),
               items: cropList.map((String value) {
                 return DropdownMenuItem<String>(
@@ -89,7 +92,7 @@ class _CropPricePredictionScreenState extends State<CropPricePredictionScreen> {
                 color: Colors.grey[800]!,
               ),
               child: Text(
-                'Predict',
+                AppLocalizations.of(context)!.predictButtonText,
                 style: TextStyle(
                   color: Colors.grey[200]!,
                   fontSize: 16,

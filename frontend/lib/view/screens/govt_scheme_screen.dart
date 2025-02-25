@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/controller/api/govt_schemes_api.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constants/colors.dart';
 import '../constants/enums.dart';
@@ -18,7 +19,7 @@ class _GovtSchemeScreenState extends State<GovtSchemeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Government Schemes'),
+        title: Text(AppLocalizations.of(context)!.govtSchemesMenuText),
       ),
       body: Column(
         children: [
@@ -42,7 +43,7 @@ class _GovtSchemeScreenState extends State<GovtSchemeScreen> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
-                      'Indian Govt',
+                      AppLocalizations.of(context)!.indianGovText,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: categorySelectedIndex == 0
@@ -71,7 +72,7 @@ class _GovtSchemeScreenState extends State<GovtSchemeScreen> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
-                      'State Govt',
+                      AppLocalizations.of(context)!.stateGovText,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: categorySelectedIndex == 1

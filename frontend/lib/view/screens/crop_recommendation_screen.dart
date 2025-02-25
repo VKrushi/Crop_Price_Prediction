@@ -3,6 +3,7 @@ import 'package:frontend/controller/api/crop_recommendation_api.dart';
 import 'package:frontend/view/constants/enums.dart';
 import 'package:frontend/view/widgets/parameter_textfield.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CropRecommendationScreen extends StatefulWidget {
   const CropRecommendationScreen({super.key});
@@ -71,9 +72,9 @@ class _CropRecommendationScreenState extends State<CropRecommendationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Crop Recommendation System',
-          style: TextStyle(fontSize: 16),
+        title: Text(
+          AppLocalizations.of(context)!.cropReccomendationText,
+          style: const TextStyle(fontSize: 16),
         ),
       ),
       body: Column(
@@ -158,7 +159,7 @@ class _CropRecommendationScreenState extends State<CropRecommendationScreen> {
                       color: Colors.grey[800]!,
                     ),
                     child: Text(
-                      'Enter',
+                      AppLocalizations.of(context)!.recommendButtonText,
                       style: TextStyle(
                         color: Colors.grey[200]!,
                         fontSize: 16,

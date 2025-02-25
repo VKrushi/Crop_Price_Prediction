@@ -4,6 +4,7 @@ import 'package:frontend/controller/api/latest_news_api.dart';
 import 'package:frontend/view/constants/enums.dart';
 import 'package:frontend/view/constants/routes.dart';
 import 'package:frontend/view/widgets/feature_tile.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:frontend/view/widgets/mobile_drawer.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,10 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.pushNamed(context, latestNewsScreenRoute);
   }
 
+  void onClickProfile(BuildContext context) {
+    Navigator.pushNamed(context, profileScreenRoute);
+  }
+
   void onClickGovtSchemes(BuildContext context) async {
     final provider = Provider.of<GovtSchemesApi>(context, listen: false);
     if (provider.schemeApiState != ApiState.succesful) {
@@ -39,14 +44,15 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       drawer: MobileDrawer(
+        onClickProfile: () => onClickProfile(context),
         onClickLatestNews: () => onClickLatestNews(context),
         onClickGovtSchemes: () => onClickGovtSchemes(context),
       ),
       appBar: AppBar(
-        title: const SearchBar(
-          leading: Icon(Icons.search),
-          constraints: BoxConstraints.expand(height: 32),
-          hintText: 'Search',
+        title: SearchBar(
+          leading: const Icon(Icons.search),
+          constraints: const BoxConstraints.expand(height: 32),
+          hintText: AppLocalizations.of(context)!.searchHint,
         ),
       ),
       body: SingleChildScrollView(
@@ -73,9 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            const Text(
-              'App_Name',
-              style: TextStyle(fontSize: 18),
+            Text(
+              AppLocalizations.of(context)!.appName,
+              style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 24),
             ListView(
@@ -83,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 FeatureTile(
-                  title: 'Crop Price Predictor',
+                  title: AppLocalizations.of(context)!.cropPricePredictorText,
                   onTap: () => Navigator.pushNamed(
                     context,
                     cropPricePredictionScreenRoute,
@@ -94,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 FeatureTile(
-                  title: 'Crop Recommendation System',
+                  title: AppLocalizations.of(context)!.cropReccomendationText,
                   onTap: () => Navigator.pushNamed(
                     context,
                     cropRecommendationScreenRoute,
@@ -105,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 FeatureTile(
-                  title: 'Profit Calculator',
+                  title: AppLocalizations.of(context)!.profitCalculatorText,
                   onTap: () => Navigator.pushNamed(
                     context,
                     profitCalculatorScreenRoute,

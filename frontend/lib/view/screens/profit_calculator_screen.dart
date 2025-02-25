@@ -5,6 +5,7 @@ import 'package:frontend/view/constants/colors.dart';
 import 'package:frontend/view/constants/raw_data.dart';
 import 'package:frontend/view/widgets/expense_or_benefit_tile.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../widgets/parameter_textfield.dart';
 
@@ -35,9 +36,15 @@ class _ProfitCalculatorScreenState extends State<ProfitCalculatorScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Calculated Profit'),
-        content: Text(
-          'The calculated profit as per your given data is $profit',
-        ),
+        content: profit < 0
+            ? Text(
+                'You have incurred a loss of ₹ ${-profit} as per your given data',
+                style: const TextStyle(color: Colors.red),
+              )
+            : Text(
+                'The calculated profit as per your given data is ₹ $profit',
+                style: const TextStyle(color: Colors.green),
+              ),
         actions: [
           GestureDetector(
             child: const Text('Close'),
@@ -55,16 +62,16 @@ class _ProfitCalculatorScreenState extends State<ProfitCalculatorScreen> {
     return Consumer<ExpenseBenefitProvider>(
       builder: (context, value, child) => Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Profit Calculator',
-            style: TextStyle(fontSize: 16),
+          title: Text(
+            AppLocalizations.of(context)!.profitCalculatorText,
+            style: const TextStyle(fontSize: 16),
           ),
         ),
         body: Column(
           children: [
             Container(
               alignment: Alignment.centerLeft,
-              child: const Text('Add a expense'),
+              child: Text(AppLocalizations.of(context)!.addExpenseText),
             ),
             Row(
               children: [
@@ -75,7 +82,9 @@ class _ProfitCalculatorScreenState extends State<ProfitCalculatorScreen> {
                     alignment: Alignment.center,
                     value: selectedExpenseOption,
                     underline: Container(),
-                    hint: const Text('Type of expense'),
+                    hint: Text(
+                      AppLocalizations.of(context)!.expenseTypeText,
+                    ),
                     icon: const Icon(Icons.arrow_drop_down_sharp),
                     items: expenseOptions.map((String value) {
                       return DropdownMenuItem<String>(
@@ -93,7 +102,7 @@ class _ProfitCalculatorScreenState extends State<ProfitCalculatorScreen> {
                   flex: 4,
                   child: ParameterTextField(
                     controller: controller1,
-                    label: 'Amount',
+                    label: AppLocalizations.of(context)!.amountHintText,
                     hintText: 'Cost in ₹',
                   ),
                 ),
@@ -124,7 +133,7 @@ class _ProfitCalculatorScreenState extends State<ProfitCalculatorScreen> {
             ),
             Container(
               alignment: Alignment.centerLeft,
-              child: const Text('Add a benefit'),
+              child: Text(AppLocalizations.of(context)!.addBenefitText),
             ),
             Row(
               children: [
@@ -135,7 +144,7 @@ class _ProfitCalculatorScreenState extends State<ProfitCalculatorScreen> {
                     isExpanded: true,
                     alignment: Alignment.center,
                     underline: Container(),
-                    hint: const Text('Type of benefit'),
+                    hint: Text(AppLocalizations.of(context)!.benefitTypeText),
                     icon: const Icon(Icons.arrow_drop_down_sharp),
                     items: expenseOptions.map((String value) {
                       return DropdownMenuItem<String>(
@@ -153,7 +162,7 @@ class _ProfitCalculatorScreenState extends State<ProfitCalculatorScreen> {
                   flex: 4,
                   child: ParameterTextField(
                     controller: controller2,
-                    label: 'Amount',
+                    label: AppLocalizations.of(context)!.amountHintText,
                     hintText: 'Cost in ₹',
                   ),
                 ),
@@ -195,7 +204,7 @@ class _ProfitCalculatorScreenState extends State<ProfitCalculatorScreen> {
                     color: Colors.grey[800]!,
                   ),
                   child: Text(
-                    'Calculate Profit',
+                    AppLocalizations.of(context)!.calculateProfitButtonText,
                     style: TextStyle(
                       color: Colors.grey[200]!,
                       fontSize: 16,

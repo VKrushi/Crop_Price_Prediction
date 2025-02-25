@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ class AuthStateProvider extends ChangeNotifier {
   AppUser? user;
   bool showLoginScreen = true;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   verifyPhone({
     required String phone,
@@ -23,10 +25,7 @@ class AuthStateProvider extends ChangeNotifier {
       await _firebaseAuth.verifyPhoneNumber(
         verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {
           // print('verificationComplete');
-          user = AppUser(
-            username: null,
-            phone: phone,
-          );
+
           notifyListeners();
         },
         verificationFailed: (FirebaseAuthException error) {
@@ -56,12 +55,48 @@ class AuthStateProvider extends ChangeNotifier {
         verificationId: verificationId!,
         smsCode: otp,
       );
-
       await _firebaseAuth.signInWithCredential(credential);
     } on Exception catch (e) {
       authException = e.toString();
       notifyListeners();
     }
+  }
+
+  saveDetails({
+    required String userName,
+    required String userLocation,
+  }) async {
+    authState = AuthState.loading;
+    notifyListeners();
+    try {
+      await _firebaseFirestore
+          .collection('UserDetails')
+          .doc(_firebaseAuth.currentUser!.phoneNumber)
+          .set({
+        'userName': userName,
+        'userLocation': userLocation,
+      });
+      user = AppUser(
+        username: userName,
+        phone: _firebaseAuth.currentUser!.phoneNumber!,
+        userLocation: userLocation,
+      );
+    } on Exception catch (e) {
+      authException = e.toString();
+      notifyListeners();
+    }
+  }
+
+  void getUserDetails() async {
+    final doc = await _firebaseFirestore
+        .collection('UserDetails')
+        .doc(_firebaseAuth.currentUser!.phoneNumber)
+        .get();
+    user = AppUser(
+      username: doc.data()!['userName'],
+      phone: doc.id,
+      userLocation: doc.data()!['userLocation'],
+    );
   }
 
   void logout() async {

@@ -3,6 +3,7 @@ import 'package:frontend/controller/api/latest_news_api.dart';
 import 'package:frontend/view/constants/enums.dart';
 import 'package:frontend/view/widgets/news_tile.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LatestNewsScreen extends StatefulWidget {
   const LatestNewsScreen({super.key});
@@ -16,7 +17,7 @@ class _LatestNewsScrennState extends State<LatestNewsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Latest News'),
+        title: Text(AppLocalizations.of(context)!.latestNewsMenuText),
       ),
       body: SingleChildScrollView(
         child: Column(
