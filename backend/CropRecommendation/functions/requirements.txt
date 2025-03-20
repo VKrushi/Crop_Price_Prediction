@@ -1,0 +1,7 @@
+firebase_functions
+firebase_admin
+numpy
+scikit-learn
+statsmodels
+pandas
+beautifulsoup4
