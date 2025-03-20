@@ -17,36 +17,28 @@ class _CropRecommendationScreenState extends State<CropRecommendationScreen> {
   late final TextEditingController controller1;
   late final TextEditingController controller2;
   late final TextEditingController controller3;
-  late final TextEditingController controller4;
-  late final TextEditingController controller5;
 
   @override
   void initState() {
     controller1 = TextEditingController();
     controller2 = TextEditingController();
     controller3 = TextEditingController();
-    controller4 = TextEditingController();
-    controller5 = TextEditingController();
     Provider.of<CropRecommendationApi>(context, listen: false)
         .recommendationApiState = ApiState.none;
     super.initState();
   }
 
-  void onClickEnter() {
+  void onClickEnter() async {
     final provider = Provider.of<CropRecommendationApi>(context, listen: false);
 
     if (isValid()) {
-      var nitrogen = double.parse(controller1.text);
-      var temperature = double.parse(controller2.text);
-      var humidity = double.parse(controller3.text);
-      var pH = double.parse(controller4.text);
-      var rainfall = double.parse(controller5.text);
-      provider.recommendCrop(
-        nitrogen: nitrogen,
-        temperature: temperature,
-        humidity: humidity,
-        pH: pH,
-        rainfall: rainfall,
+      var location = controller1.text;
+      var weather = controller2.text;
+      var soil = controller3.text;
+      await provider.recommendCrop(
+        location: location,
+        weather: weather,
+        soil: soil,
       );
     } else {
       provider.recommendationApiState = ApiState.error;
@@ -59,9 +51,7 @@ class _CropRecommendationScreenState extends State<CropRecommendationScreen> {
   bool isValid() {
     if (controller1.text.isEmpty ||
         controller2.text.isEmpty ||
-        controller3.text.isEmpty ||
-        controller4.text.isEmpty ||
-        controller5.text.isEmpty) {
+        controller3.text.isEmpty) {
       return false;
     }
 
@@ -77,138 +67,109 @@ class _CropRecommendationScreenState extends State<CropRecommendationScreen> {
           style: const TextStyle(fontSize: 16),
         ),
       ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Flexible(
-                flex: 1,
-                child: ParameterTextField(
-                  controller: controller1,
-                  label: 'Nitrogen',
-                  hintText: 'cg/kg',
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ParameterTextField(
+              controller: controller1,
+              label: 'Location',
+              hintText: 'Name of Place/City',
+            ),
+            ParameterTextField(
+              controller: controller2,
+              label: 'Weather',
+              hintText: 'Rainfall, climate, etc',
+            ),
+            ParameterTextField(
+              controller: controller3,
+              label: 'Soil',
+              hintText: 'Nature of soil',
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Flexible(
+                  flex: 2,
+                  child: Container(),
                 ),
-              ),
-              Flexible(
-                flex: 1,
-                child: ParameterTextField(
-                  controller: controller2,
-                  label: 'Temperature',
-                  hintText: '℃',
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Flexible(
-                flex: 1,
-                child: ParameterTextField(
-                  controller: controller3,
-                  label: 'Humidity',
-                  hintText: 'g/m3',
-                ),
-              ),
-              Flexible(
-                flex: 1,
-                child: ParameterTextField(
-                  controller: controller4,
-                  label: 'pH',
-                  hintText: '',
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Flexible(
-                flex: 1,
-                child: Container(),
-              ),
-              Flexible(
-                flex: 2,
-                child: ParameterTextField(
-                  controller: controller5,
-                  label: 'Rainfall',
-                  hintText: 'mm',
-                ),
-              ),
-              Flexible(
-                flex: 1,
-                child: Container(),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Flexible(
-                flex: 2,
-                child: Container(),
-              ),
-              Flexible(
-                flex: 2,
-                child: GestureDetector(
-                  onTap: () => onClickEnter(),
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey[400]!),
-                      borderRadius: BorderRadius.circular(4),
-                      color: Colors.grey[800]!,
-                    ),
-                    child: Text(
-                      AppLocalizations.of(context)!.recommendButtonText,
-                      style: TextStyle(
-                        color: Colors.grey[200]!,
-                        fontSize: 16,
+                Flexible(
+                  flex: 2,
+                  child: GestureDetector(
+                    onTap: () => onClickEnter(),
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey[400]!),
+                        borderRadius: BorderRadius.circular(4),
+                        color: Colors.grey[800]!,
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context)!.recommendButtonText,
+                        style: TextStyle(
+                          color: Colors.grey[200]!,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Flexible(
-                flex: 2,
-                child: Container(),
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          Row(
-            children: List.generate(
-              50,
-              (index) => Expanded(
-                child: Container(
-                  color: index % 2 == 0 ? Colors.transparent : Colors.grey,
-                  height: .5,
+                Flexible(
+                  flex: 2,
+                  child: Container(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: List.generate(
+                50,
+                (index) => Expanded(
+                  child: Container(
+                    color: index % 2 == 0 ? Colors.transparent : Colors.grey,
+                    height: .5,
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 16),
-          Consumer<CropRecommendationApi>(
-            builder: (context, value, child) {
-              switch (value.recommendationApiState) {
-                case ApiState.none:
-                  return Container();
-                case ApiState.loading:
-                  return const CircularProgressIndicator();
-                default:
-                  return Text(
-                    value.recommendationApiState == ApiState.error
-                        ? value.error!
-                        : value.recommendedCrop!,
-                    style: TextStyle(
-                      color: value.recommendationApiState == ApiState.error
-                          ? Colors.red
-                          : Colors.grey[800],
-                    ),
-                  );
-              }
-            },
-          ),
-        ],
+            const SizedBox(height: 16),
+            Consumer<CropRecommendationApi>(
+              builder: (context, value, child) {
+                switch (value.recommendationApiState) {
+                  case ApiState.none:
+                    return Container();
+                  case ApiState.loading:
+                    return const CircularProgressIndicator();
+                  default:
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.green,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          value.recommendationApiState == ApiState.error
+                              ? value.error!
+                              : value.recommendedCrop!,
+                          style: TextStyle(
+                            color:
+                                value.recommendationApiState == ApiState.error
+                                    ? Colors.red
+                                    : Colors.grey[800],
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    );
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

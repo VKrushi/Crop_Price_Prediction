@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/controller/api/chatbot_api.dart';
 import 'package:frontend/controller/api/crop_price_prediction_api.dart';
 import 'package:frontend/controller/api/crop_recommendation_api.dart';
 import 'package:frontend/controller/api/govt_schemes_api.dart';
@@ -47,6 +48,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => LanguageProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => ChatbotApi(),
+        ),
       ],
       child: Consumer<LanguageProvider>(
         builder: (context, value, child) => MaterialApp(
@@ -69,7 +73,7 @@ class MyApp extends StatelessWidget {
             Locale('mr'),
           ],
           routes: routes,
-          initialRoute: homeScreenRoute,
+          initialRoute: authGateRoute,
         ),
       ),
     );

@@ -146,7 +146,7 @@ class _ProfitCalculatorScreenState extends State<ProfitCalculatorScreen> {
                     underline: Container(),
                     hint: Text(AppLocalizations.of(context)!.benefitTypeText),
                     icon: const Icon(Icons.arrow_drop_down_sharp),
-                    items: expenseOptions.map((String value) {
+                    items: benefitOptions.map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),

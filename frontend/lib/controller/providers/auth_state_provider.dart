@@ -87,7 +87,7 @@ class AuthStateProvider extends ChangeNotifier {
     }
   }
 
-  void getUserDetails() async {
+  Future<AppUser> getUserDetails() async {
     final doc = await _firebaseFirestore
         .collection('UserDetails')
         .doc(_firebaseAuth.currentUser!.phoneNumber)
@@ -97,6 +97,7 @@ class AuthStateProvider extends ChangeNotifier {
       phone: doc.id,
       userLocation: doc.data()!['userLocation'],
     );
+    return user!;
   }
 
   void logout() async {

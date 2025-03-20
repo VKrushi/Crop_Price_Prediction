@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/controller/api/chatbot_api.dart';
 import 'package:frontend/controller/api/govt_schemes_api.dart';
 import 'package:frontend/controller/api/latest_news_api.dart';
 import 'package:frontend/view/constants/enums.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:frontend/view/widgets/mobile_drawer.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,6 +19,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late final TextEditingController searchController;
+
+  @override
+  void initState() {
+    searchController = TextEditingController();
+    super.initState();
+  }
+
   void onClickLatestNews(BuildContext context) async {
     final provider = Provider.of<LatestNewsApi>(context, listen: false);
     if (provider.newsApiState != ApiState.succesful) {
@@ -53,31 +63,70 @@ class _HomeScreenState extends State<HomeScreen> {
           leading: const Icon(Icons.search),
           constraints: const BoxConstraints.expand(height: 32),
           hintText: AppLocalizations.of(context)!.searchHint,
+          controller: searchController,
+          onSubmitted: (value) async {
+            await Provider.of<ChatbotApi>(context, listen: false)
+                .chat(prompt: value);
+          },
         ),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              Uri uri = Uri.parse('');
+              await launchUrl(uri);
+            },
+            icon: const Icon(Icons.help),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Card(
-                  elevation: 8,
-                  shape: const CircleBorder(),
-                  child: Container(
-                    height: 128,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.amber,
-                      image: DecorationImage(
-                        image: Image.asset(
-                          'assets/images/logo.png',
-                        ).image,
+            Consumer<ChatbotApi>(
+              builder: (context, value, child) {
+                switch (value.chatbotApiState) {
+                  case ApiState.none:
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Card(
+                          elevation: 8,
+                          shape: const CircleBorder(),
+                          child: Container(
+                            height: 128,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.amber,
+                              image: DecorationImage(
+                                image: Image.asset(
+                                  'assets/images/logo.png',
+                                ).image,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-              ),
+                    );
+                  case ApiState.loading:
+                    return const CircularProgressIndicator();
+                  case ApiState.error:
+                    return Text(value.error!);
+                  default:
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.green,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(value.response!),
+                      ),
+                    );
+                }
+              },
             ),
             Text(
               AppLocalizations.of(context)!.appName,

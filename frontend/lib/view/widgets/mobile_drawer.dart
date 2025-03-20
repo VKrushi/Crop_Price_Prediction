@@ -20,19 +20,9 @@ class MobileDrawer extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: 32),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.black,
-              ),
-            ),
-            child: const Icon(
-              Icons.person,
-              size: 100,
-            ),
+          Image.asset(
+            'assets/images/profile_pic.png',
+            fit: BoxFit.contain,
           ),
           const Text('User Name'),
           const SizedBox(height: 32),

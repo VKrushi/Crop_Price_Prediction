@@ -17,7 +17,7 @@ class ParameterTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
       child: TextField(
-        keyboardType: TextInputType.number,
+        keyboardType: TextInputType.text,
         controller: controller,
         decoration: InputDecoration(
           hintText: hintText,

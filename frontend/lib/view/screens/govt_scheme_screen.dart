@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/controller/api/govt_schemes_api.dart';
+import 'package:frontend/view/widgets/schemes_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -108,9 +109,9 @@ class _GovtSchemeScreenState extends State<GovtSchemeScreen> {
                       return Visibility(
                         visible: categorySelectedIndex ==
                             value.schemes![index]['Type'],
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          child: Text(value.schemes![index]['Title']),
+                        child: SchemesTile(
+                          schemeTitle: value.schemes![index]['Title'],
+                          schemeUrl: value.schemes![index]['Link'],
                         ),
                       );
                     },
